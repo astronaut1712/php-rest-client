@@ -19,19 +19,25 @@ class RestClient{
             'proxy' => '',
             'method' => 'GET',
             'headers' => [],
+            'agent' => 'PHP RestClient 1.0',
             'data' => ''
         );
 
     function __construct($options = array()) {
-        foreach ($options as $key => $value) {
-            $this->_options[$key] = $value;
+        if (is_string($options)) {
+            $this->_url = $options;
+        }else{
+            foreach ($options as $key => $value) {
+                $this->_options[$key] = $value;
+            }
+            $this->parseOptions($this->_options);
         }
-        $this->parseOptions($this->_options);
     }
 
     protected function parseOptions($options){
         $this->_url = $options["url"];
         $this->setHeaders($options["headers"]);
+        $this->_user_agent = $options["agent"];
     }
 
     function execute($value=''){
@@ -47,15 +53,15 @@ class RestClient{
     }
 
     function put($value=''){
-        $this->request("PUT");
+        $this->request("PUT", $value|$this->_options['data']);
     }
 
     function delete($value=''){
-        $this->request("DELETE");
+        $this->request("DELETE", $value|$this->_options['data']);
     }
 
     function options($value=''){
-        $this->request("OPTIONS");
+        $this->request("OPTIONS", $value|$this->_options['data']);
     }
 
     protected function request($method = 'GET', $data=''){
@@ -82,6 +88,7 @@ class RestClient{
         curl_setopt($ch, CURLOPT_PROXY, $this->_options["proxy"]);
         curl_setopt($ch, CURLOPT_HEADER,1);
         curl_setopt($ch, CURLOPT_HTTPHEADER,$this->_req_headers);
+        curl_setopt($ch, CURLOPT_USERAGENT, $this->_user_agent);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
@@ -90,15 +97,15 @@ class RestClient{
         list($this->_res_headers, $this->_res_body) = explode("\r\n\r\n", $output, 2);
     }
 
-    function _getHttpStatus(){
+    function getHttpStatus(){
         return $this->_http_status;
     }
 
-    function _getResHeader(){
+    function getResHeaders(){
         return $this->_res_headers;
     }
 
-    function _getBody(){
+    function getResBody(){
         return $this->_res_body;
     }
 
@@ -112,6 +119,18 @@ class RestClient{
 
     function setProxy($proxy=''){
         $this->_options["proxy"] = $proxy;
+    }
+
+    function setURL($url){
+        $this->_options["url"] = $url;
+    }
+
+    function setReqData($data){
+        $this->_options["data"] = $data;
+    }
+
+    function setUserAgent($value){
+        $this->_user_agent = $value;
     }
 
 } // END class RestClient
