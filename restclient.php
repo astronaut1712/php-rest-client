@@ -3,7 +3,7 @@
  * RestClient class
  *
  * @package default
- * @author
+ * @author quangnx
  **/
 class RestClient{
 
@@ -15,7 +15,7 @@ class RestClient{
         $_http_status;
 
     var $_options = array(
-            'url' => 'http://nxquang.com',
+            'url' => 'http://example.com',
             'proxy' => '',
             'method' => 'GET',
             'headers' => [],
@@ -116,21 +116,4 @@ class RestClient{
 
 } // END class RestClient
 
-$API_KEY = "ZmNiMmZjNTEyYThhY2FmNGUxZjA4MTk3ZGQ0NzY1MmJjYjU3NDg0NA";
-$data = '{"rrsets": [ {"name": "test.example.org", "type": "A", "changetype": "REPLACE", "records": [ {"content": "1.1.1.1", "disabled": false, "name": "test.example.org", "ttl": 86400, "type": "A", "priority": 0 } ] } ] }';
-$test = new RestClient(array(
-    'url' => "210.245.126.147:8081/servers/localhost/zones/example.org",
-    'headers' => array('X-API-Key: '.$API_KEY),
-    'data' => $data,
-    'method' => 'PATCH'//,
-    //'proxy' => '210.245.31.7:80'
-));
-
-$test->execute();
-#$test->post();
-echo $test->_getResHeader();
-echo "\n\n";
-echo $test->_getHttpStatus();
-echo "\n\n";
-var_dump(json_decode($test->_getBody(), true));
 ?>
