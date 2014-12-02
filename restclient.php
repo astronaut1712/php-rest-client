@@ -15,7 +15,7 @@ class RestClient{
         $_http_status;
 
     var $_options = array(
-            'url' => 'http://example.com',
+            'url' => 'http://api.example.com',
             'proxy' => '',
             'method' => 'GET',
             'headers' => [],
@@ -131,6 +131,10 @@ class RestClient{
 
     function setUserAgent($value){
         $this->_user_agent = $value;
+    }
+
+    function setMethod($method="GET"){
+        $this->_options["method"] = $method;
     }
 
 } // END class RestClient
