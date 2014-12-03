@@ -41,7 +41,7 @@ class RestClient{
     }
 
     function execute($value=''){
-        $this->request($this->_options["method"],$value|$this->_options['data']);
+        $this->request($this->_options["method"],$value?$value:$this->_options['data']);
     }
 
     function get($value=''){
@@ -49,19 +49,19 @@ class RestClient{
     }
 
     function post($value=''){
-        $this->request("POST", $value|$this->_options['data']);
+        $this->request("POST", $value?$value:$this->_options['data']);
     }
 
     function put($value=''){
-        $this->request("PUT", $value|$this->_options['data']);
+        $this->request("PUT", $value?$value:$this->_options['data']);
     }
 
     function delete($value=''){
-        $this->request("DELETE", $value|$this->_options['data']);
+        $this->request("DELETE", $value?$value:$this->_options['data']);
     }
 
     function options($value=''){
-        $this->request("OPTIONS", $value|$this->_options['data']);
+        $this->request("OPTIONS", $value?$value:$this->_options['data']);
     }
 
     protected function request($method = 'GET', $data=''){
