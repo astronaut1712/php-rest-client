@@ -7,14 +7,14 @@
  **/
 class RestClient{
 
-    var $_url,
+    protected $_url,
         $_user_agent,
         $_req_headers,
         $_res_headers,
         $_res_body,
         $_http_status;
 
-    var $_options = array(
+    protected $_options = array(
             'url' => 'http://api.example.com',
             'proxy' => '',
             'method' => 'GET',
@@ -40,32 +40,32 @@ class RestClient{
         $this->_user_agent = $options["agent"];
     }
 
-    function execute($value=''){
-        $this->request($this->_options["method"],$value?$value:$this->_options['data']);
+    public function execute($value=''){
+        $this->request($this->_options["method"], $this->_url, $value?$value:$this->_options['data']);
     }
 
-    function get($value=''){
-        $this->request();
+    public function get($url='', $value=''){
+        $this->request("GET", $url?$url:$this->_url);
     }
 
-    function post($value=''){
-        $this->request("POST", $value?$value:$this->_options['data']);
+    public function post($url='', $value=''){
+        $this->request("POST", $url?$url:$this->_url, $value?$value:$this->_options['data']);
     }
 
-    function put($value=''){
-        $this->request("PUT", $value?$value:$this->_options['data']);
+    public function put($url='', $value=''){
+        $this->request("PUT", $url?$url:$this->_url, $value?$value:$this->_options['data']);
     }
 
-    function delete($value=''){
-        $this->request("DELETE", $value?$value:$this->_options['data']);
+    public function delete($url='', $value=''){
+        $this->request("DELETE", $url?$url:$this->_url, $value?$value:$this->_options['data']);
     }
 
-    function options($value=''){
-        $this->request("OPTIONS", $value?$value:$this->_options['data']);
+    public function options($url='', $value=''){
+        $this->request("OPTIONS", $url?$url:$this->_url, $value?$value:$this->_options['data']);
     }
 
-    protected function request($method = 'GET', $data=''){
-        $ch = curl_init($this->_url);
+    protected function request($method = 'GET', $url, $data=''){
+        $ch = curl_init($url);
         if (strtoupper($method) != "GET") {
             switch (strtoupper($method)) {
                 case 'POST':
@@ -97,43 +97,43 @@ class RestClient{
         list($this->_res_headers, $this->_res_body) = explode("\r\n\r\n", $output, 2);
     }
 
-    function getHttpStatus(){
+    public function getHttpStatus(){
         return $this->_http_status;
     }
 
-    function getResHeaders(){
+    public function getResHeaders(){
         return $this->_res_headers;
     }
 
-    function getResBody(){
+    public function getResBody(){
         return $this->_res_body;
     }
 
-    function setHeaders($value=array()){
+    public function setHeaders($value=array()){
         $this->_req_headers = $value;
     }
 
-    function putHeader($value){
+    public function putHeader($value){
         $this->_req_headers[] = $value;
     }
 
-    function setProxy($proxy=''){
+    public function setProxy($proxy=''){
         $this->_options["proxy"] = $proxy;
     }
 
-    function setURL($url){
+    public function setURL($url){
         $this->_options["url"] = $url;
     }
 
-    function setReqData($data){
+    public function setReqData($data){
         $this->_options["data"] = $data;
     }
 
-    function setUserAgent($value){
+    public function setUserAgent($value){
         $this->_user_agent = $value;
     }
 
-    function setMethod($method="GET"){
+    public function setMethod($method="GET"){
         $this->_options["method"] = $method;
     }
 
