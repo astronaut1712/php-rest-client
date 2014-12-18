@@ -15,8 +15,7 @@ You can use proxy option if needed.
 ```php
 <?php
     $client = new RestClient();
-    $client->setURL("http://api.example.com/");
-    $client->get();//post($data=''), put($data=''), delete($data=''), options($data='')
+    $client->get("http://api.example.com/");//post("http://api.example.com/", $data=''), put("http://api.example.com/", $data=''), delete("http://api.example.com/", $data=''), options("http://api.example.com/", $data='')
     echo $client->_getBody();
 ?>
 ```
