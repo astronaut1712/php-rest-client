@@ -1,6 +1,8 @@
 php-rest-client
 ===============
 
+author: @quang
+
 Rest Client for PHP
 
 RestClient class is a simplest to use Restful Client for PHP.
